@@ -52,7 +52,7 @@ A robust Employee Management System built with **Node.js**, **Express**, **TypeS
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/employee-management.git
+   git clone https://github.com/mahamdou-nouridine/employee-management.git
    cd employee-management
    ```
 2. Install dependencies:
@@ -64,6 +64,7 @@ A robust Employee Management System built with **Node.js**, **Express**, **TypeS
    - Add the following variables:
      ```env
      PORT=4000
+     # Local db
      DB_STRING=mongodb://localhost:27017/employee-management
      JWT_SECRET=your-secret-key
      ```
@@ -88,7 +89,7 @@ A robust Employee Management System built with **Node.js**, **Express**, **TypeS
 
 ### Base URL
 ```
-http://localhost:4000
+https://employee-management-system-953c.onrender.com
 ```
 
 ### Endpoints
@@ -106,7 +107,7 @@ http://localhost:4000
 #### Health Check
 - **Server Health Check**: `GET /`
 
-For detailed API documentation, refer to the [API Documentation](./API_DOCUMENTATION.md).
+For detailed API documentation, refer to the [API Documentation](./api-doc.md).
 
 ---
 
