@@ -7,6 +7,7 @@ import cors from "cors";
 import { connectToDb } from "../lib/db";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import employeesRouter from "./routes/employees.route";
+import authRouter from "./routes/auth.toute";
 const app = express();
 
 // cors
@@ -18,8 +19,12 @@ app.use(express.json());
 // data sanitisation against No-Sql query injection
 app.use(ExpressMongoSanitize());
 
+// bind the quth route
+app.use("/auth", authRouter);
+
 // bind the employees route
 app.use("/employees", employeesRouter);
+
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });

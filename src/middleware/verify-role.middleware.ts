@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-export const verifyRoleMiddleWare = async (roles: string[]): Promise<any> => {
-  return (req: Request, res: Response, next: NextFunction) => {
+export const verifyRoleMiddleWare =  (roles: string[]) => {
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     const role = (
       req as unknown as Request & {
         jwtData: {
