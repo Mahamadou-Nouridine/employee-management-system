@@ -23,7 +23,7 @@ app
   .use(ExpressMongoSanitize())
 
   // Request logging
-  .use(morgan('combined'))
+  .use(morgan("combined"))
 
   // bind the quth route
 
@@ -31,6 +31,11 @@ app
 
   // bind the employees route
   .use("/employees", employeesRouter)
+
+  // server healf-check endpoint
+  .get("/", (req, res) => {
+    res.send("Hello world!");
+  })
 
   // customize unexistent endpoint output
   .all("*", (req, res) => {
@@ -41,12 +46,7 @@ app
   })
 
   // global error handeling
-  .use(mainExecptionFilter)
-
-  // server healf-check endpoint
-  .get("/", (req, res) => {
-    res.send("Hello world!");
-  });
+  .use(mainExecptionFilter);
 
 // connect to the db
 const port = process.env.PORT || 4000;
