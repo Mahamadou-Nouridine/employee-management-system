@@ -1,5 +1,12 @@
 import { Router } from "express";
+import { checkSchema } from "express-validator";
+import { createEmployeeSchema } from "../validators/create-employee-validator";
+import { createEmployee } from "../controllers/employeee.controller";
 
-const router = Router();
+const employeesRouter = Router();
 
-router.route("employees").post();
+employeesRouter
+  .route("")
+  .post(checkSchema(createEmployeeSchema), createEmployee);
+
+export default employeesRouter;
