@@ -12,7 +12,9 @@ const app = express();
 // cors
 app.use(cors());
 
+// parse body data
 app.use(express.json());
+
 // data sanitisation against No-Sql query injection
 app.use(ExpressMongoSanitize());
 
@@ -24,7 +26,6 @@ app.get("/", (req, res) => {
 
 // connect to the db
 const port = process.env.PORT || 4000;
-console.log(port);
 connectToDb(
   () => {
     app.listen(port, () => {
