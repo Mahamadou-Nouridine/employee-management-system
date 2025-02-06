@@ -1,0 +1,220 @@
+# Employee Management API Documentation
+
+This document provides an overview of the available API endpoints for the Employee Management application. The API is built using Express.js and MongoDB, with TypeScript for type safety.
+
+## Base URL
+All endpoints are relative to the base URL:
+https://employee-management-system-953c.onrender.com
+
+## Authentication
+
+### Generate Token
+Generates a JWT token for authentication.
+
+* **Endpoint**: `GET /auth/generate-token/:role`
+* **Parameters**:
+  * `role` (string, required): The role for which the token is generated.
+* **Response**:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+## Employees
+
+### Create Employee
+Creates a new employee.
+
+* **Endpoint**: `POST /employees`
+* **Headers**:
+  * `Authorization: Bearer <token>` (required, admin role only)
+* **Body**:
+```json
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "position": "Software Engineer",
+  "department": "Engineering",
+  "salary": 80000,
+  "dateOfJoining": "2024-01-10"
+}
+```
+* **Response**:
+```json
+{
+  "_id": "65c8f1e2e4b0a1a2b3c4d5e6",
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "position": "Software Engineer",
+  "department": "Engineering",
+  "salary": 80000,
+  "dateOfJoining": "2024-01-10T00:00:00.000Z"
+}
+```
+
+### Get All Employees
+Retrieves a list of employees with pagination.
+
+* **Endpoint**: `GET /employees`
+* **Query Parameters**:
+  * `page` (number, optional): Page number (default: 1)
+  * `limit` (number, optional): Number of items per page (default: 10)
+* **Response**:
+```json
+[
+  {
+    "_id": "65c8f1e2e4b0a1a2b3c4d5e6",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "position": "Software Engineer",
+    "department": "Engineering",
+    "salary": 80000,
+    "dateOfJoining": "2024-01-10T00:00:00.000Z"
+  },
+  {
+    "_id": "65c8f1e2e4b0a1a2b3c4d5e7",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "position": "Product Manager",
+    "department": "Product",
+    "salary": 90000,
+    "dateOfJoining": "2024-01-15T00:00:00.000Z"
+  }
+]
+```
+
+### Get Employee by ID
+Retrieves details of a specific employee by their ID.
+
+* **Endpoint**: `GET /employees/:id`
+* **Parameters**:
+  * `id` (string, required): The ID of the employee
+* **Response**:
+```json
+{
+  "_id": "65c8f1e2e4b0a1a2b3c4d5e6",
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "position": "Software Engineer",
+  "department": "Engineering",
+  "salary": 80000,
+  "dateOfJoining": "2024-01-10T00:00:00.000Z"
+}
+```
+
+### Update Employee
+Updates an employee's details.
+
+* **Endpoint**: `PUT /employees/:id`
+* **Headers**:
+  * `Authorization: Bearer <token>` (required, admin role only)
+* **Parameters**:
+  * `id` (string, required): The ID of the employee
+* **Body**:
+```json
+{
+  "position": "Senior Software Engineer",
+  "salary": 100000
+}
+```
+* **Response**:
+```json
+{
+  "message": "Employee updated successfully"
+}
+```
+
+### Delete Employee
+Deletes an employee by their ID.
+
+* **Endpoint**: `DELETE /employees/:id`
+* **Headers**:
+  * `Authorization: Bearer <token>` (required, admin role only)
+* **Parameters**:
+  * `id` (string, required): The ID of the employee
+* **Response**:
+```json
+{
+  "message": "Employee deleted successfully"
+}
+```
+
+### Search Employees
+Searches employees by name, department, or position.
+
+* **Endpoint**: `GET /employees/search`
+* **Query Parameters**:
+  * `name` (string, optional): Name of the employee
+  * `department` (string, optional): Department of the employee
+  * `position` (string, optional): Position of the employee
+* **Response**:
+```json
+[
+  {
+    "_id": "65c8f1e2e4b0a1a2b3c4d5e6",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "position": "Software Engineer",
+    "department": "Engineering",
+    "salary": 80000,
+    "dateOfJoining": "2024-01-10T00:00:00.000Z"
+  }
+]
+```
+
+## Health Check
+
+### Server Health Check
+Checks if the server is running.
+
+* **Endpoint**: `GET /`
+* **Response**: `Hello world!`
+
+## Error Responses
+
+### Common Error Responses
+
+#### 400 Bad Request
+```json
+{
+  "message": "Validation error",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
+}
+```
+
+#### 401 Unauthorized
+```json
+{
+  "message": "unauthorized"
+}
+```
+
+#### 403 Forbidden
+```json
+{
+  "message": "access denied"
+}
+```
+
+#### 404 Not Found
+```json
+{
+  "status": "Not found route",
+  "message": "Can't find /invalid-route on this server"
+}
+```
+
+#### 500 Internal Server Error
+```json
+{
+  "message": "An error occurred"
+}
+```
+
+This concludes the API documentation for the Employee Management application. of constact me: linkedin: [mahamadou-nouridine](https://www.linkedin.com/in/mahamadou-nouridine)
