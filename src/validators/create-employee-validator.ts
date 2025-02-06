@@ -47,7 +47,6 @@ export const createEmployeeSchema: Schema = {
     isNumeric: {
       errorMessage: "Salary must be a valid number",
     },
-    toFloat: true, // Sanitization: Converts to a float
   },
   dateOfJoining: {
     notEmpty: {

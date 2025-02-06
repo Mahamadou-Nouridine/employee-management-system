@@ -71,7 +71,10 @@ export const getAllEmployeeById = async (
   );
 
   // missing employee
-  if(!employee) return res.status(404).json({message: "Can't find the employee with the provided id"})
+  if (!employee)
+    return res
+      .status(404)
+      .json({ message: "Can't find the employee with the provided id" });
   return res.json(employee);
 };
 
@@ -92,4 +95,21 @@ export const deleteEmployee = async (
   return res
     .status(500)
     .json({ message: "An error occured while deleting the the employee" });
+};
+
+export const search = async (req: Request, res: Response): Promise<any> => {
+  // retrieve parameters
+  const name = req.query.name;
+  const department = req.query.department;
+  const position = req.query.position;
+
+  console.log({ name, department, position });
+
+  const employees = await EmployeeModel.find({
+    ...(name ? { name: { $regex: name, $options: "i" } } : {}),
+    ...(department ? { department } : {}),
+    ...(position ? { position } : {}),
+  });
+
+  return res.json(employees);
 };
