@@ -15,10 +15,19 @@ export const createEmployee = async (
   const data = req.body as Employee;
 
   const newEmployee = await EmployeeModel.create(data);
-  const { createdAt, updatedAt, __v, _id, ...rest } = newEmployee.toJSON();
+  const { createdAt, updatedAt, __v, ...rest } = newEmployee.toJSON();
 
   return res.status(201).json({
-    id: _id,
     ...rest,
   });
+};
+
+export const getAllEmployees = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const employees = await EmployeeModel.find({}).select(
+    "-__v -createdAt -updatedAt"
+  );
+  return res.json(employees);
 };
