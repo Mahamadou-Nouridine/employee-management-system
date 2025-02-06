@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { checkSchema, param } from "express-validator";
+import { checkSchema, param, query } from "express-validator";
 import { createEmployeeSchema } from "../validators/create-employee-validator";
 import {
   createEmployee,
   deleteEmployee,
-  getAllEmployeeById,
+  getEmployeeById,
   getAllEmployees,
   search,
   updateEmployee,
@@ -25,7 +25,28 @@ employeesRouter
     verifyRoleMiddleWare(["admin"]),
     createEmployee
   )
-  .get(getAllEmployees);
+  .get(
+    // page and limit
+    query("page")
+      .isAlphanumeric()
+      .toInt()
+      .optional()
+      // sanitize the input
+      .escape(),
+    //   .custom((v) => {
+    //     return v > 0;
+    //   }),
+    query("limit")
+      .isAlphanumeric()
+      .toInt()
+      .optional()
+      // sanitize the input
+      .escape(),
+    //   .custom((v) => {
+    //     return v > 0;
+    //   })
+    getAllEmployees
+  );
 
 employeesRouter
   .route("/search")
@@ -44,7 +65,7 @@ employeesRouter
         return isValid;
       })
       .withMessage("The id should be a valid object id"),
-    getAllEmployeeById
+    getEmployeeById
   )
   .put(
     param("id")

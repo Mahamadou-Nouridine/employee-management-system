@@ -63,17 +63,28 @@ export const getAllEmployees = async (
   res: Response,
   next: NextFunction
 ): Promise<any> => {
+  // validate the input (limit and page)
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors.array());
+  }
+
+  const page = +(req.query.page as unknown as number || 1);
+  const limit = +(req.query.limit as unknown as number || 10);
+  const skip = (page - 1) * limit;
+
   try {
-    const employees = await EmployeeModel.find({}).select(
-      "-__v -createdAt -updatedAt"
-    );
+    const employees = await EmployeeModel.find({})
+      .skip(skip)
+      .limit(limit)
+      .select("-__v -createdAt -updatedAt");
     return res.json(employees);
   } catch (error) {
     next(error);
   }
 };
 
-export const getAllEmployeeById = async (
+export const getEmployeeById = async (
   req: Request,
   res: Response,
   next: NextFunction
