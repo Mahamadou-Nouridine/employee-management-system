@@ -2,7 +2,6 @@ import { checkSchema, Schema } from "express-validator";
 
 export const createEmployeeSchema: Schema = {
   name: {
-    in: ["body"],
     notEmpty: {
       errorMessage: "Name is required",
     },
@@ -13,7 +12,6 @@ export const createEmployeeSchema: Schema = {
     escape: true, // Sanitization: Escapes HTML characters
   },
   email: {
-    in: ["body"],
     notEmpty: {
       errorMessage: "Email is required",
     },
@@ -23,7 +21,6 @@ export const createEmployeeSchema: Schema = {
     normalizeEmail: true, // Sanitization: Normalizes the email
   },
   position: {
-    in: ["body"],
     notEmpty: {
       errorMessage: "Position is required",
     },
@@ -34,7 +31,6 @@ export const createEmployeeSchema: Schema = {
     escape: true, // Sanitization
   },
   department: {
-    in: ["body"],
     notEmpty: {
       errorMessage: "Department is required",
     },
@@ -45,7 +41,6 @@ export const createEmployeeSchema: Schema = {
     escape: true, // Sanitization
   },
   salary: {
-    in: ["body"],
     notEmpty: {
       errorMessage: "Salary is required",
     },
@@ -55,7 +50,6 @@ export const createEmployeeSchema: Schema = {
     toFloat: true, // Sanitization: Converts to a float
   },
   dateOfJoining: {
-    in: ["body"],
     notEmpty: {
       errorMessage: "Date of joining is required",
     },
