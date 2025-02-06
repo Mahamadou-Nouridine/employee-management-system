@@ -25,8 +25,17 @@ app.use("/auth", authRouter);
 // bind the employees route
 app.use("/employees", employeesRouter);
 
+// server healf-check endpoint
 app.get("/", (req, res) => {
   res.send("Hello world!");
+});
+
+// customize unexistent endpoint output
+app.all("*", (req, res) => {
+  res.status(404).json({
+    status: "Not found route",
+    message: `Can't find ${req.originalUrl} on this server`,
+  });
 });
 
 // connect to the db
