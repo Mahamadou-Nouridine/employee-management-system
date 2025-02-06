@@ -8,8 +8,8 @@ import { connectToDb } from "../lib/db";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import employeesRouter from "./routes/employees.route";
 import authRouter from "./routes/auth.toute";
-import { MongoError } from "mongodb";
-import { mainExecptionFilter } from "./execeptions-filters";
+import morgan from "morgan";
+import { mainExecptionFilter } from "./exceptions/execeptions-filters";
 const app = express();
 
 app
@@ -21,6 +21,9 @@ app
 
   // data sanitisation against No-Sql query injection
   .use(ExpressMongoSanitize())
+
+  // Request logging
+  .use(morgan('combined'))
 
   // bind the quth route
 

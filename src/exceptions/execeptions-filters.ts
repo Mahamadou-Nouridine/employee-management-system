@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { MongoError } from "mongodb";
+import { getErrorMessage } from "../../lib/utils/get-error-message";
+import logger from "./logger";
 
 export const mongoDbExceptionFilter = (error: MongoError, res: Response) => {
   switch (error.code) {
@@ -10,7 +12,9 @@ export const mongoDbExceptionFilter = (error: MongoError, res: Response) => {
       break;
 
     default:
-      return res.status(500).json({ message: "server side error" });
+      // log unhandeled errors
+      logger.error("An error occured", error);
+      return res.status(500).json({ message: "An error occured" });
       break;
   }
 };
@@ -21,9 +25,14 @@ export const mainExecptionFilter = async (
   res: Response,
   next: NextFunction
 ): Promise<any> => {
-  console.log({ error });
   if (error instanceof MongoError) {
     return mongoDbExceptionFilter(error, res);
   }
-  return res.status(500).json({ message: "server side error" });
+
+  // log unhandeled errors
+  logger.error("An error occured", error);
+
+  error.statusCode = error.statusCode || 500;
+  res.status(error.statusCode).json({ message: "An error occured" });
+  next();
 };

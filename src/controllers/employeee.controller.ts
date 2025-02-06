@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Employee } from "../../lib/types";
 import { validationResult } from "express-validator";
 import EmployeeModel from "../models/employee.model";
+import logger from "../exceptions/logger";
 
 export const createEmployee = async (
   req: Request,
