@@ -1,42 +1,49 @@
 import dotenv from "dotenv";
 // load environment variables
 dotenv.config();
-import express from "express";
+import express, { NextFunction, Request } from "express";
 import cors from "cors";
 
 import { connectToDb } from "../lib/db";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import employeesRouter from "./routes/employees.route";
 import authRouter from "./routes/auth.toute";
+import { MongoError } from "mongodb";
+import { mainExecptionFilter } from "./execeptions-filters";
 const app = express();
 
-// cors
-app.use(cors());
+app
+  // cors
+  .use(cors())
 
-// parse body data
-app.use(express.json());
+  // parse body data
+  .use(express.json())
 
-// data sanitisation against No-Sql query injection
-app.use(ExpressMongoSanitize());
+  // data sanitisation against No-Sql query injection
+  .use(ExpressMongoSanitize())
 
-// bind the quth route
-app.use("/auth", authRouter);
+  // bind the quth route
 
-// bind the employees route
-app.use("/employees", employeesRouter);
+  .use("/auth", authRouter)
 
-// server healf-check endpoint
-app.get("/", (req, res) => {
-  res.send("Hello world!");
-});
+  // bind the employees route
+  .use("/employees", employeesRouter)
 
-// customize unexistent endpoint output
-app.all("*", (req, res) => {
-  res.status(404).json({
-    status: "Not found route",
-    message: `Can't find ${req.originalUrl} on this server`,
+  // customize unexistent endpoint output
+  .all("*", (req, res) => {
+    res.status(404).json({
+      status: "Not found route",
+      message: `Can't find ${req.originalUrl} on this server`,
+    });
+  })
+
+  // global error handeling
+  .use(mainExecptionFilter)
+
+  // server healf-check endpoint
+  .get("/", (req, res) => {
+    res.send("Hello world!");
   });
-});
 
 // connect to the db
 const port = process.env.PORT || 4000;
